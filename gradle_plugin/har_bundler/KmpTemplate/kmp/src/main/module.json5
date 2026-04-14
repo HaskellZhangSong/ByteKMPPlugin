@@ -1,0 +1,14 @@
+{
+  "module": {
+    "name": "kmp",
+    "type": "har",
+    "description": "",
+    "mainElement": "KmpAbility",
+    "deviceTypes": [
+      "phone",
+      "tablet",
+      "2in1"
+    ],
+    "installationFree": false,
+  }
+}

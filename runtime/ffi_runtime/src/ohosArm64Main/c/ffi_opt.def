@@ -1,0 +1,4 @@
+headers = ffi_opt.h
+package = com.bytedance.kmp.ohos_ffi.opt
+compilerOpts = -Isrc/ohosArm64Main/c -Xcinterop-return-value-cstr
+linkerOpts = -Lbuild/ffi_opt -Lsrc/ohosArm64Main/c -lffi_opt

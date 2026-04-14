@@ -1,0 +1,11 @@
+{
+  "name": "kmp",
+  "version": "1.0.0",
+  "description": "Please describe the basic information.",
+  "main": "Index.ets",
+  "author": "",
+  "license": "",
+  "dependencies": {
+    "libkmp.so": "file:./src/main/cpp/types/libkmp",
+  }
+}

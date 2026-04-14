@@ -1,0 +1,94 @@
+import sun.reflect.generics.reflectiveObjects.NotImplementedException
+class BuildProperties implements Map {
+
+    private final Properties localProperties
+    private final Properties gradleProperties
+
+    BuildProperties(Properties localProperties, Properties gradleProperties) {
+        this.localProperties = localProperties
+        this.gradleProperties = gradleProperties
+    }
+
+    @Override
+    int size() {
+        return 0
+    }
+
+    @Override
+    boolean isEmpty() {
+        return true
+    }
+
+    @Override
+    boolean containsKey(Object key) {
+        return false
+    }
+
+    @Override
+    boolean containsValue(Object value) {
+        return false
+    }
+
+    @Override
+    Object get(Object key) {
+        def value = localProperties.get(key)
+        if(value != null) return value
+        value = System.getenv(key)
+        if(value != null) return value
+        value = gradleProperties.get(key)
+        return value
+    }
+
+    @Override
+    Object put(Object key, Object value) {
+    throw NotImplementedException()
+}
+
+    @Override
+    Object remove(Object key) {
+        throw NotImplementedException()
+    }
+
+    @Override
+    void putAll(Map m) {
+        throw NotImplementedException()
+    }
+
+    @Override
+    void clear() {
+        throw NotImplementedException()
+    }
+
+    @Override
+    Set keySet() {
+        return new HashSet()
+    }
+
+    @Override
+    Collection values() {
+        return new ArrayList()
+    }
+
+    @Override
+    Set<Entry> entrySet() {
+        return new HashSet<Entry>()
+    }
+}
+
+Properties loadPropertyFile(File file) {
+    Properties properties = new Properties()
+    if(file.isFile()) {
+        properties.load(file.newDataInputStream())
+    }
+    return properties
+}
+
+File projectRoot = rootDir
+if(projectRoot.name == "buildSrc") {
+    projectRoot = projectRoot.parentFile
+}
+
+Properties localProperties = loadPropertyFile(new File(projectRoot, "local.properties"))
+Properties gradleProperties = loadPropertyFile(new File(projectRoot, "gradle.properties"))
+
+extensions.add("build_properties", new BuildProperties(localProperties, gradleProperties))

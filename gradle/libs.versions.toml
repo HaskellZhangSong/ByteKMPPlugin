@@ -1,0 +1,71 @@
+[versions]
+# android 相关编译器版本
+android-compileSdk = "34"
+android-minSdk = "21"
+android-targetSdk = "30"
+# gradle 插件使用的版本, 请不要修改这个版本，这个表示 Gradle 插件用哪个版本编译
+# 由于 gradle 使用的 kotlin 版本较低，如果设置太高的话会导致插件 apply 时报错
+gradle-plugin-compiler-kotlin = "1.8.20"
+# byteKMP 使用的版本
+byte-kmp = "2.0.20-bytekmp-1001"
+kotlinx-coroutines = "1.8.1-bytekmp.3"
+# 这个是给编译插件用的，由于编译器为 1.8.20，所以这个也不能太高，太高会报错
+kotlinx-serialization = "1.6.3"
+kotlinx-serialization-runtime = "1.7.1-bytekmp.4"
+kotlinx-datetime = "0.6.1-bytekmp-opensource.6"
+
+jetbrains-compose = "1.6.10-bytekmp.10"
+jetbrains-lifecycle = "2.8.0-bytekmp.10"
+jetbrains-navigation = "2.7.7-bytekmp.10"
+jetbrains-savedstate = "1.2.1-bytekmp.10"
+compose-plugin = "1.6.10-bytekmp.10"
+compose-components-resources = "1.6.10-bytekmp.10"
+atomicfu = "0.25.0-bytekmp.4"
+ksp = "2.0.20-1.0.24"
+agp = "7.3.1"
+
+[libraries]
+# gradle 插件的依赖
+jdom2 = { module = "org.jdom:jdom2", version = "2.0.6.1" }
+
+# runtime 依赖
+atomic-fu = { module = "org.jetbrains.kotlinx:atomicfu", version.ref = "atomicfu" }
+kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+kotlinx-serialization-json-runtime = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-runtime" }
+kotlinx-parcelize = { module = "org.jetbrains.kotlin:kotlin-parcelize-runtime", version.ref = "byte-kmp" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
+androidx-compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "jetbrains-compose" }
+androidx-compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "jetbrains-compose" }
+androidx-compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "jetbrains-compose" }
+androidx-compose-material = { module = "org.jetbrains.compose.material:material", version.ref = "jetbrains-compose" }
+compose-lifecycle = {module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "jetbrains-lifecycle"}
+ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
+
+[plugins]
+# ByteKMP 容器自己发布的插件，不用写版本号
+bytekmp-publish = { id = "com.bytedance.kmp.publish" }
+bytekmp-har-bundler = { id = "com.bytedance.kmp.ohos_ffi.so_har_generator" }
+bytekmp-all = { id = "com.bytedance.kmp.all" }
+bytekmp-meta-all = { id = "com.bytedance.kmp.meta.all" }
+# ByteKMP 使用的插件
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "byte-kmp" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "byte-kmp" }
+kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "byte-kmp" }
+kotlinx-parcelize = {id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "byte-kmp"}
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "byte-kmp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+google-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+compose-plugin = { id = "org.jetbrains.compose", version.ref = "compose-plugin"}
+
+
+[bundles]
+coreCompose = [
+    "atomic-fu",
+    "kotlinx-coroutines",
+    "androidx-compose-runtime",
+    "androidx-compose-foundation",
+    "androidx-compose-ui",
+    "androidx-compose-material",
+    "compose-lifecycle",
+]

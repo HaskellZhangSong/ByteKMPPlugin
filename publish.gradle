@@ -1,0 +1,81 @@
+buildscript {
+    File file = null
+    if(gradle.parent != null) {
+        file = rootProject.file("../local.properties")
+    } else {
+        file = rootProject.file("local.properties")
+    }
+
+    Properties properties = new Properties()
+    if (file.isFile()) {
+        properties.load(file.newDataInputStream())
+    }
+
+    def mavenUrl = properties.get("custom_maven_url") != null ? properties.get("custom_maven_url") : System.getenv("custom_maven_url")
+    if (mavenUrl == null) {
+        File gradlePropertiesFile = null
+        if (gradle.parent != null) {
+            gradlePropertiesFile = rootProject.file("../gradle.properties")
+        } else {
+            gradlePropertiesFile = rootProject.file("gradle.properties")
+        }
+        Properties gradleProperties = new Properties()
+        if (gradlePropertiesFile.isFile()) {
+            gradleProperties.load(gradlePropertiesFile.newDataInputStream())
+        }
+        mavenUrl = gradleProperties.get("custom_maven_url")
+    }
+    if(mavenUrl == null) throw new IllegalStateException(("please set custom_maven_url=xxxx in local.properties"))
+
+    repositories {
+        maven { url mavenUrl }
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'org.jdom:jdom2:2.0.6'
+    }
+}
+
+File localFile = null
+if(gradle.parent != null) {
+    localFile = rootProject.file("../local.properties")
+} else {
+    localFile = rootProject.file("local.properties")
+}
+
+Properties properties = new Properties()
+if (localFile.isFile()) {
+    properties.load(localFile.newDataInputStream())
+}
+
+def mavenUrl = properties.get("custom_maven_url") != null ? properties.get("custom_maven_url") : System.getenv("custom_maven_url")
+if (mavenUrl == null) mavenUrl = project.findProperty("custom_maven_url")
+if(mavenUrl == null) throw new IllegalStateException(("please set custom_maven_url=xxxx in local.properties"))
+
+project.repositories {
+    maven { url mavenUrl }
+}
+
+project.afterEvaluate {
+
+    def publishUrl = properties.get("custom_maven_publish_url") != null ? properties.get("custom_maven_publish_url") : System.getenv("custom_maven_publish_url")
+    def publishName = properties.get("custom_maven_publish_username") != null ? properties.get("custom_maven_publish_username") : System.getenv("custom_maven_publish_username")
+    def publishPass = properties.get("custom_maven_publish_password") != null ? properties.get("custom_maven_publish_password") : System.getenv("custom_maven_publish_password")
+
+    def mavenPlugin = pluginManager.findPlugin("maven-publish")
+    if (mavenPlugin == null) {
+        throw new GradleException("该 project 未使用 maven publish 发布组件，请确认是否为非发布组件")
+    }
+    def publishing = project.extensions.findByType(PublishingExtension.class)
+    publishing.repositories {
+        maven {
+            name = "Bytedance" //  optional target repository name
+            url = publishUrl
+            credentials {
+                username = publishName
+                password = publishPass
+            }
+        }
+    }
+}

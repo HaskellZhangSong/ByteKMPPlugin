@@ -1,0 +1,16 @@
+java {
+    withSourcesJar()
+}
+
+project.version = project.property("ARTIFACT_VERSION").toString()
+publishing {
+    publications {
+        withType(MavenPublication).configureEach {
+            if(name == "pluginMaven") {
+                // 修改 maven 坐标
+                group = project.property("ARTIFACT_GROUP").toString()
+                artifactId = project.property("ARTIFACT_NAME").toString()
+            }
+        }
+    }
+}
