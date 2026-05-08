@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "arkts-ffi-kt"
+version = "0.1.0"
+description = ""
+authors = ["songzh <haskell.songzh@hotmail.com>"]
+readme = "README.md"
+
+packages = [
+    { include = "convert" },
+    { include = "lang" },
+    { include = "utils" },
+]
+
+
+[tool.poetry.dependencies]
+python = "^3.13"
+typing-extensions = "^4.12.2"
+tree-sitter = "^0.25.2"
+tree-sitter-kotlin = "^1.1.0"
+tree-sitter-typescript = "^0.23.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

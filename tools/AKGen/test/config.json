@@ -1,0 +1,42 @@
+{
+  "kmp.dir": "/Users/bd/xieyutian/test_case/kt",
+  "ohos.dir": "/Users/bd/xieyutian/test_case/ohos",
+  "ios.dir": "",
+  "proxy": {
+    "har_demo_example1": {
+      "shareType": "proxy",
+      "enableShareId": true,
+      "enableIosEmptyImpl": true,
+      "enableJsonName": true,
+      "suffix": "KMP",
+      "defaultPackage": "com.bd.kmp.infra.ffi.demo",
+      "android": {
+        "srcDir": ["./src/androidMain/kotlin"],
+        "kotlinOut": "./src/androidMain/kotlin"
+      },
+      "common": {
+        "kotlinOut": "./src/commonMain/kotlin/auto_gen_ffi_proxy_example1",
+        "entityDir": {
+          "commonMain": ["./src/commonMain/kotlin/auto_gen_ffi_proxy_example1"],
+          "ohosArm64Main": ["./src/ohosArm64Main/kotlin/auto_gen_ffi_proxy_example1"]
+        }
+      },
+      "ohos": {
+        "common": {
+          "kotlinOut": "./demo/har_demo/src/ohosArm64Main/kotlin/auto_gen_ffi_proxy_example1",
+          "import":["bigint.test.BigIntTestInterfaceCommon"]
+        },
+        "packages": {
+          "@kmp/basic_ability": {
+            "arktsSrcDir": [""]
+          }
+        }
+      },
+      "ios": {
+        "common":{
+          "kotlinOut" : "./demo/har_demo/src/iosMain/kotlin/auto_gen_ffi_proxy_example2"
+        }
+      }
+    }
+  }
+}
